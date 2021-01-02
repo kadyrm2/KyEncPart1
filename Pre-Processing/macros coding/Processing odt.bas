@@ -1,13 +1,13 @@
 REM  *****  BASIC  *****
 
-Sub Main
-	call test1
+Sub test_findAndReplaceSensitive
+	findAndReplaceSensitive(chr$(213), "FOOO", 2)
 End Sub
 
 sub test1
 	dim doc
 	doc = ThisComponent()
-	
+	msgbox ("hell", 0, "sdjf")
 	
 	msgbox (doc.cursor)
 	msgbox(chr(0248),, GetDocumentType(doc))
@@ -40,11 +40,32 @@ sub show_code_point
 	s$ = vCursor.getString()
 	
 	if Len(s)>0 then
-		msgbox ASC(s) & "   " & s,0, "ASCII (unicode) of Selection: "
+		msgbox "Decimal code: " & ASC(s) & " for  " & s & chr(10) & " hex: " & val("AAA") ,0, "ASCII (unicode) of Selection: "
 	else
 		print "Empty string is selected"
 	endif
 end sub
+
+sub SchoolBookCTT_to_UnicodeCyrillic
+	' Abbreviations: SchoolBookCTT = SBCTT
+	'
+	'
+	dim const SBookCTT_start as Integer = 192 , SBookCTT_end as Integer = 255
+	dim const UCyrillic_start as Integer = 1040, UCyrillic_end as Integer = 1103
+	dim i as integer, j as integer
+	
+	i = 192
+	j = 1040
+	
+	
+	for i= SBookCTT_start to SBookCTT_end
+		msgbox ("Replacing" & chr(i) & " to " & chr(j))
+		findAndReplaceSensitive(chr$(i), chr(j), 3)
+		j=j+1
+	Next
+	
+End Sub
+
 
 sub SchoolBoxCTT_to_UTF8
 	rem ----------------------------------------------------------------------
@@ -59,7 +80,7 @@ sub SchoolBoxCTT_to_UTF8
 	rem ----------------------------------------------------------------------
 	dispatcher.executeDispatch(document, ".uno:GoToStartOfDoc", "", 0, Array())
 	
-	call ChangeAllChars
+	findAndReplaceSensitive(chr$(213))
 end sub
 
 sub findAndReplaceUnsensitive
@@ -173,8 +194,14 @@ sub findAndReplaceUnsensitive
 	
 end sub
 
-sub findAndReplaceSensitive
+sub findAndReplaceSensitive (_strFind as String, _strReplace as String, _mode as Integer)
 	rem ----------------------------------------------------------------------
+	' _mode meanings:
+	' 0 means find and select 1st occurence, 
+	' 1 means find and select all occurences,
+	' 2 means replace 1st occurence and select next one circling the doc, 
+	' 3 means replace all
+	
 	rem define variables
 	dim document   as object
 	dim dispatcher as object
@@ -208,9 +235,9 @@ sub findAndReplaceSensitive
 	args1(10).Name = "SearchItem.SearchFlags"
 	args1(10).Value = 65536
 	args1(11).Name = "SearchItem.SearchString"
-	args1(11).Value =CHR$(213)
+	args1(11).Value = _strFind
 	args1(12).Name = "SearchItem.ReplaceString"
-	args1(12).Value = "HELLLOO"
+	args1(12).Value = _strReplace
 	args1(13).Name = "SearchItem.Locale"
 	args1(13).Value = 255
 	args1(14).Name = "SearchItem.ChangedChars"
@@ -222,7 +249,7 @@ sub findAndReplaceSensitive
 	args1(17).Name = "SearchItem.TransliterateFlags"
 	args1(17).Value = 1280
 	args1(18).Name = "SearchItem.Command"
-	args1(18).Value = 2
+	args1(18).Value = _mode					
 	args1(19).Name = "SearchItem.SearchFormatted"
 	args1(19).Value = false
 	args1(20).Name = "SearchItem.AlgorithmType2"
@@ -231,6 +258,10 @@ sub findAndReplaceSensitive
 	args1(21).Value = true
 	
 	dispatcher.executeDispatch(document, ".uno:ExecuteSearch", "", 0, args1())
+	
+	If _mode = 2 then
+		dispatcher.executeDispatch(document, ".uno:ExecuteSearch", "", 0, args1())
+	endif 
 
 
 end sub
