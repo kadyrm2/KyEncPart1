@@ -46,8 +46,9 @@ sub show_code_point
 	endif
 end sub
 
-sub SchoolBookCTT_to_UnicodeCyrillic
-	' Abbreviations: SchoolBookCTT = SBCTT
+sub ConvertRussianCyrillic
+	' This function performs convertion of SchoolBookCTT font chars to Unicode Cyrillic group
+	' Abbreviations: SchoolBookCTT = SBookCTT
 	'
 	'
 	dim const SBookCTT_start as Integer = 192 , SBookCTT_end as Integer = 255
@@ -77,7 +78,7 @@ sub SchoolBookCTT_to_UnicodeCyrillic
 	Next
 	
 End Sub
-sub Convert_KyrgyzCyrillic
+sub ConvertKyrgyzCyrillic
 	' Converts SchoolBookCTT Kyrgyz Cyrillic chars to Unicode Kyrgyz Cyrillic ones
 	' Abbreviations: SchoolBookCTT = SB
 	' Unicode: Uni
@@ -132,7 +133,7 @@ sub Convert_KyrgyzCyrillic
 End Sub
 
 
-sub SchoolBoxCTT_to_UTF8
+sub ConvertFontSBCTT2Unicode
 	rem ----------------------------------------------------------------------
 	rem define variables
 	dim document   as object
@@ -145,7 +146,8 @@ sub SchoolBoxCTT_to_UTF8
 	rem ----------------------------------------------------------------------
 	dispatcher.executeDispatch(document, ".uno:GoToStartOfDoc", "", 0, Array())
 	
-	findAndReplaceSensitive(chr$(213))
+	Call ConvertRussianCyrillic
+	Call ConvertKyrgyzCyrillic
 end sub
 
 sub findAndReplaceUnsensitive
