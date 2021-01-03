@@ -77,6 +77,59 @@ sub SchoolBookCTT_to_UnicodeCyrillic
 	Next
 	
 End Sub
+sub Convert_KyrgyzCyrillic
+	' Converts SchoolBookCTT Kyrgyz Cyrillic chars to Unicode Kyrgyz Cyrillic ones
+	' Abbreviations: SchoolBookCTT = SB
+	' Unicode: Uni
+	'
+	dim  Barred_O(2,2) as Integer
+	dim  Straight_U(2,2) as Integer
+	dim  En_With_Tail(2,2) as Integer
+	dim ArrayContainer(3) 
+	
+	dim m_find as String, m_replace as String
+	dim i as integer, j as integer
+	Const MBYES = 6
+	Const MBABORT = 2
+	Const MBNO = 7
+	
+	Barred_O(0,0) = 170  ' Capital SchoolBookCTT Character
+	Barred_O(0,1) = 1256 ' Capital Unicode Character
+	Barred_O(1,0) = 186  ' Small SchoolBookCTT Character
+	Barred_O(1,1) = 1257 ' Small Unicode Character
+
+	Straight_U(0,0) = 175  ' Capital SchoolBookCTT Character, i.e. source
+	Straight_U(0,1) = 1198 ' Capital Unicode Character, i.e. destination
+	Straight_U(1,0) = 191  ' Small SchoolBookCTT Character, i.e. source
+	Straight_U(1,1) = 1199 ' Small Unicode Character, i.e. destination
+	
+	En_With_Tail(0,0) = 338  ' Capital SchoolBookCTT Character, i.e. source
+	En_With_Tail(0,1) = 1225 ' Capital Unicode Character, i.e. destination
+	En_With_Tail(1,0) = 339  ' Small SchoolBookCTT Character, i.e. source
+	En_With_Tail(1,1) = 1226 ' Small Unicode Character, i.e. destination
+	
+	ArrayContainer(0) = Barred_O
+	ArrayContainer(1) = Straight_U
+	ArrayContainer(2) = En_With_Tail
+	
+	i = 0
+	j = 0
+	
+	for j=0 to 2
+		for i= 0 to 1
+			m_find = chr(ArrayContainer(j)(i,0))
+			m_replace = chr(ArrayContainer(j)(i,1))
+			Status = msgbox ("Replacing" & m_find & " to " & m_replace,3+32,"Loop")		
+			Select Case Status
+				Case MBYES				
+					findAndReplaceSensitive(m_find, m_replace, 3)				
+				Case MBABORT, MBNO
+					End
+			End Select			
+		Next
+	Next
+	
+End Sub
 
 
 sub SchoolBoxCTT_to_UTF8
@@ -208,7 +261,7 @@ end sub
 
 sub findAndReplaceSensitive (_strFind as String, _strReplace as String, _mode as Integer)
 	rem ----------------------------------------------------------------------
-	' _mode meanings:
+	' _mode argument meanings:
 	' 0 means find and select 1st occurence, 
 	' 1 means find and select all occurences,
 	' 2 means replace 1st occurence and select next one circling the doc, 
