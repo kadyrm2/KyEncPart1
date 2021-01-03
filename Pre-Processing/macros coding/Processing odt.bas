@@ -52,16 +52,28 @@ sub SchoolBookCTT_to_UnicodeCyrillic
 	'
 	dim const SBookCTT_start as Integer = 192 , SBookCTT_end as Integer = 255
 	dim const UCyrillic_start as Integer = 1040, UCyrillic_end as Integer = 1103
+	dim m_find as String, m_replace as String
 	dim i as integer, j as integer
+	Const MBYES = 6
+	Const MBABORT = 2
+	Const MBNO = 7
 	
 	i = 192
 	j = 1040
 	
 	
 	for i= SBookCTT_start to SBookCTT_end
-		msgbox ("Replacing" & chr(i) & " to " & chr(j))
-		findAndReplaceSensitive(chr$(i), chr(j), 3)
-		j=j+1
+		Status = msgbox ("Replacing" & chr(i) & " to " & chr(j),3+32,"Loop")		
+		Select Case Status
+			Case MBYES
+				m_find = chr(i)
+				m_replace = chr(j)
+				findAndReplaceSensitive(m_find, m_replace, 3)
+				j=j+1
+			Case MBABORT, MBNO
+				End
+		End Select
+		
 	Next
 	
 End Sub
@@ -247,7 +259,9 @@ sub findAndReplaceSensitive (_strFind as String, _strReplace as String, _mode as
 	args1(16).Name = "SearchItem.InsertedChars"
 	args1(16).Value = 2
 	args1(17).Name = "SearchItem.TransliterateFlags"
-	args1(17).Value = 1280
+	' 1024 value: case and diacritics sensitive
+	' 1280 value: diacritics sensitive
+	args1(17).Value = 1024
 	args1(18).Name = "SearchItem.Command"
 	args1(18).Value = _mode					
 	args1(19).Name = "SearchItem.SearchFormatted"
@@ -256,12 +270,76 @@ sub findAndReplaceSensitive (_strFind as String, _strReplace as String, _mode as
 	args1(20).Value = 2
 	args1(21).Name = "Quiet"
 	args1(21).Value = true
+
 	
 	dispatcher.executeDispatch(document, ".uno:ExecuteSearch", "", 0, args1())
 	
 	If _mode = 2 then
 		dispatcher.executeDispatch(document, ".uno:ExecuteSearch", "", 0, args1())
 	endif 
+
+
+end sub
+
+
+sub findAndReplaceCaseSensitive
+rem ----------------------------------------------------------------------
+rem define variables
+dim document   as object
+dim dispatcher as object
+rem ----------------------------------------------------------------------
+rem get access to the document
+document   = ThisComponent.CurrentController.Frame
+dispatcher = createUnoService("com.sun.star.frame.DispatchHelper")
+
+rem ----------------------------------------------------------------------
+dim args1(21) as new com.sun.star.beans.PropertyValue
+args1(0).Name = "SearchItem.StyleFamily"
+args1(0).Value = 2
+args1(1).Name = "SearchItem.CellType"
+args1(1).Value = 0
+args1(2).Name = "SearchItem.RowDirection"
+args1(2).Value = true
+args1(3).Name = "SearchItem.AllTables"
+args1(3).Value = false
+args1(4).Name = "SearchItem.SearchFiltered"
+args1(4).Value = false
+args1(5).Name = "SearchItem.Backward"
+args1(5).Value = false
+args1(6).Name = "SearchItem.Pattern"
+args1(6).Value = false
+args1(7).Name = "SearchItem.Content"
+args1(7).Value = false
+args1(8).Name = "SearchItem.AsianOptions"
+args1(8).Value = false
+args1(9).Name = "SearchItem.AlgorithmType"
+args1(9).Value = 1
+args1(10).Name = "SearchItem.SearchFlags"
+args1(10).Value = 65536
+args1(11).Name = "SearchItem.SearchString"
+args1(11).Value = "?"
+args1(12).Name = "SearchItem.ReplaceString"
+args1(12).Value = ""
+args1(13).Name = "SearchItem.Locale"
+args1(13).Value = 255
+args1(14).Name = "SearchItem.ChangedChars"
+args1(14).Value = 2
+args1(15).Name = "SearchItem.DeletedChars"
+args1(15).Value = 2
+args1(16).Name = "SearchItem.InsertedChars"
+args1(16).Value = 2
+args1(17).Name = "SearchItem.TransliterateFlags"
+args1(17).Value = 1024
+args1(18).Name = "SearchItem.Command"
+args1(18).Value = 0
+args1(19).Name = "SearchItem.SearchFormatted"
+args1(19).Value = false
+args1(20).Name = "SearchItem.AlgorithmType2"
+args1(20).Value = 2
+args1(21).Name = "Quiet"
+args1(21).Value = true
+
+dispatcher.executeDispatch(document, ".uno:ExecuteSearch", "", 0, args1())
 
 
 end sub
