@@ -23,6 +23,8 @@ Sub Main
 	
 	call MarkupPageHeader
 	call MarkupHeadWord
+	call MarkupArticle
+	msgbox ("Please run DefinitionMarkup() and ArticleMarkup(), and then manually if there defintions without full stop!")
 End Sub
 
 sub MarkupLine
@@ -45,11 +47,12 @@ sub MarkupHeadWord
 end sub
 
 sub MarkupDefinition
+	findAndReplaceFormattedSimple("<key>", "<key>&</key>", 16711680)
 	findAndReplaceFormattedSimple("</key>", "<key>&</key>", 16711680)
 	msgbox("Headwords have been markedup!")
 End Sub
 
 sub MarkupArticle
-	findAndReplaceFormattedSimple("</key>", "<key>&</key>", 16711680)
-	msgbox("Headwords have been markedup!")
+	findAndReplaceFormattedSimple("<key>", "</article>" & chr(13) & "<article>" & "&", 16711680)
+	msgbox("Articles have been markedup!")
 End Sub
