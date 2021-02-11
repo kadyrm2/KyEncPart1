@@ -1,4 +1,23 @@
-﻿<page_header>12 АБАДИНАМИКАЛЫК КАЛКЫТУУ КҮЧҮ</page_header>
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet 	type="text/xsl"
+					version ="2.0"
+					href="convert_dict_1.xsl"?>
+<stardict xmlns:xi="http://www.w3.org/2003/XInclude">
+<info>
+<version>2.4.2</version>
+<bookname>Kyrgyzstan Encyclopedia, Volume I, page 12-14</bookname>
+<author>Momunaliev K.</author>
+<email>unbrim@gmail.com, kadyr.momunaliev@gmail.com</email>
+<website>www.encyclopedi.edu.kg</website>
+<description>Copyright: Kyrgyz Encyclopedia Editorial Board;</description>
+<date>2020.01.11</date>
+<dicttype>Textual StarDict Dictionary</dicttype>
+</info>
+<article>
+<key>Part before АБАДИНАМИКАЛЫК КАЛКЫТУУ КҮЧҮ</key>
+<definition type='h'>
+<![CDATA[ 
+<page_header>12 АБАДИНАМИКАЛЫК КАЛКЫТУУ КҮЧҮ</page_header>
 мап турууга, анын мамл. ж-а согуштук башка-
 руу түйүнүн кыйратууга, ядролук чабуул коюу-
 чу каражаттарын, базаларды ж. б. маанилүү
@@ -417,4 +436,7 @@
 жыйнагы 1961-ж. жарыкка чыккан. Ал «Сапар»
 (1965), «Тоо та¢ы» (1968), «Бийик жерде» (1970),
 «Нарын агат» (1973), «Жылдар барагы» (1978),
-
+]]>
+</definition>
+</article>
+</stardict>
