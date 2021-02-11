@@ -24,7 +24,7 @@ Sub Main
 	call MarkupPageHeader
 	call MarkupHeadWord
 	call MarkupArticle
-	msgbox ("Please run DefinitionMarkup() and ArticleMarkup(), and then manually if there defintions without full stop!")
+	msgbox ("Please manually checkup if there false articles without full stop and then run DefinitionMarkup()!")
 End Sub
 
 sub MarkupLine
@@ -47,12 +47,12 @@ sub MarkupHeadWord
 end sub
 
 sub MarkupDefinition
-	findAndReplaceFormattedSimple("<key>", "<key>&</key>", 16711680)
-	findAndReplaceFormattedSimple("</key>", "<key>&</key>", 16711680)
-	msgbox("Headwords have been markedup!")
+	findAndReplaceFormattedSimple("</key>", "&" & chr(10) & "<definition type='h'>" & chr(10)  & "<![CDATA[ ", 16711681)
+	findAndReplaceFormattedSimple("</article>", "]]>" & chr(10) & "</definition>" & chr(10) & "&", 16711681)
+	msgbox("Definitions have been markedup!")
 End Sub
 
 sub MarkupArticle
-	findAndReplaceFormattedSimple("<key>", "</article>" & chr(13) & "<article>" & "&", 16711680)
+	findAndReplaceFormattedSimple("<key>", "</article>" & chr(10) & "<article>" & chr(10) & "&", 16711680)
 	msgbox("Articles have been markedup!")
 End Sub
