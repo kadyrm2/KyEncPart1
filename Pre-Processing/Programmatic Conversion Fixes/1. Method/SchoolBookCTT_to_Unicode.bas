@@ -76,10 +76,11 @@ sub ConvertKyrgyzCyrillic
 	' Abbreviations: SchoolBookCTT = SB
 	' Unicode: Uni
 	'
-	dim  Barred_O(2,2) as Integer
-	dim  Straight_U(2,2) as Integer
-	dim  En_With_Tail(2,2) as Integer
-	dim ArrayContainer(3) 
+	dim  Barred_O(2,2) as Integer ' Two dimensional array
+	dim  Straight_U(2,2) as Integer ' Two dimensional array
+	dim  En_With_Tail(2,2) as Integer ' Two dimensional array
+	dim  En_With_Tail2(2,2) as Integer ' Two dimensional array
+	dim ArrayContainer(4) ' Four dimensional array
 	
 	dim m_find as String, m_replace as String
 	dim i as integer, j as integer
@@ -102,15 +103,20 @@ sub ConvertKyrgyzCyrillic
 	En_With_Tail(1,0) = 339  ' Small SchoolBookCTT Character, i.e. source
 	En_With_Tail(1,1) = 1226 ' Small Unicode Character, i.e. destination
 	
+	En_With_Tail2(0,0) = 162  ' Small SchoolBookCTT Character, i.e. source
+	En_With_Tail2(0,1) = 1226 ' Small Unicode Character, i.e. destination	
+	En_With_Tail2(1,0) = 162  ' Small SchoolBookCTT Character, i.e. source
+	En_With_Tail2(1,1) = 1226 ' Small Unicode Character, i.e. destination
+	
 	ArrayContainer(0) = Barred_O
 	ArrayContainer(1) = Straight_U
 	ArrayContainer(2) = En_With_Tail
-	
+	ArrayContainer(3) = En_With_Tail2
 	i = 0
 	j = 0
 	
-	for j=0 to 2
-		for i= 0 to 1
+	for j=0 to 3 ' Array Container Traverse
+		for i= 0 to 1 ' Array(SchoolBox_ind, Unicode_ind) traverse 
 			m_find = chr(ArrayContainer(j)(i,0))
 			m_replace = chr(ArrayContainer(j)(i,1))
 			Status = msgbox ("Replacing" & m_find & " to " & m_replace,3+32,"Loop")		
@@ -530,6 +536,5 @@ sub writeUnicodeGlyphsOfSBCTT
 
 
 end sub
-
 
 
