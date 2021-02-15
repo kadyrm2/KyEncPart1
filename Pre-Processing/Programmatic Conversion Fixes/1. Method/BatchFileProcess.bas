@@ -18,3 +18,11 @@ Sub ShowFiles
  
   MsgBox AllFiles
 End Sub
+sub CloseDoc
+	if HasUnoInterfaces(ThisComponent, "com.sun.star.util.XCloseable") then
+		thisComponent.close(true)
+	else
+		ThisComponent.dispose()
+	endif
+End Sub
+
