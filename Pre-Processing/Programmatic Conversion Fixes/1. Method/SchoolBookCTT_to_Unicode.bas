@@ -56,7 +56,8 @@ sub ConvertRussianCyrillic
 	
 	
 	for i= SBookCTT_start to SBookCTT_end
-		Status = msgbox ("Replacing" & chr(i) & " to " & chr(j),3+32,"Loop")		
+		'Status = msgbox ("Replacing" & chr(i) & " to " & chr(j),3+32,"Loop")		
+		Status = MBYES
 		Select Case Status
 			Case MBYES
 				m_find = chr(i)
@@ -119,7 +120,8 @@ sub ConvertKyrgyzCyrillic
 		for i= 0 to 1 ' Array(SchoolBox_ind, Unicode_ind) traverse 
 			m_find = chr(ArrayContainer(j)(i,0))
 			m_replace = chr(ArrayContainer(j)(i,1))
-			Status = msgbox ("Replacing" & m_find & " to " & m_replace,3+32,"Loop")		
+			'Status = msgbox ("Replacing" & m_find & " to " & m_replace,3+32,"Loop")		
+			Status = MBYES
 			Select Case Status
 				Case MBYES				
 					'findAndReplaceSensitive(m_find, m_replace, 3)
@@ -175,7 +177,8 @@ sub ConvertAcuteCyrillic
 	for i= 0 to 6
 		m_find = chr(AcuteSBCTT1_to_Unicode_Map(0,i))
 		m_replace = chr(AcuteSBCTT1_to_Unicode_Map(1,i))
-		Status = msgbox ("Replacing" & m_find & " to " & m_replace,3+32,"Loop")		
+		'Status = msgbox ("Replacing" & m_find & " to " & m_replace,3+32,"Loop")		
+		Status = MBYES
 		Select Case Status
 			Case MBYES				
 				'findAndReplaceSensitive(m_find, m_replace, 3)				
