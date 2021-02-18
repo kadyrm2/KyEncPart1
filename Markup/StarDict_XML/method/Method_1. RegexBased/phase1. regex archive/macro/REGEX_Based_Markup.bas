@@ -9,7 +9,7 @@ const PARAGRAPH_START = "^"
 const TERM_PERSON  = "^([À-ß???])+[À-ß???][à-ÿ???]"
 const TERM_HYPHEN ="^([À-ß«»???])+ –"
 const TERM_START_CANDIDATE = "^(([À-ß«»???]){3})+" ' Select Three or more Capital Letters at the begging of the par
-const TERM_CANDIDATE_STRONG = "^[À-ß«»??? ,]+ " 'STRONG MATCH
+const TERM_CANDIDATE_STRONG = "^[À-ß«»???- ,]+ " 'STRONG MATCH
 
 const PAGE_HEADER_STRONG = "(^[1-9][0-9] [À-ß«»??? ,]+)|([À-ß«»??? ,]+ [1-9][0-9]$)"
 const COLUMN_BREAK = "\n\r" 'works in Notepad++
