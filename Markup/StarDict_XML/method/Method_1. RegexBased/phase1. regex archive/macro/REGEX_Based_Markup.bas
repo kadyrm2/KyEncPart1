@@ -1,5 +1,7 @@
 REM  *****  BASIC  *****
-
+Const MBYES = 6
+Const MBABORT = 2
+Const MBNO = 7
 
 'REGEX COLLECTION
 const PARAGRAPH_END = "$"
@@ -9,7 +11,7 @@ const PARAGRAPH_START = "^"
 const TERM_PERSON  = "^([À-ß???])+[À-ß???][à-ÿ???]"
 const TERM_HYPHEN ="^([À-ß«»???])+ –"
 const TERM_START_CANDIDATE = "^(([À-ß«»???]){3})+" ' Select Three or more Capital Letters at the begging of the par
-const TERM_CANDIDATE_STRONG = "^[À-ß«»???- ,]+ " 'STRONG MATCH
+const TERM_CANDIDATE_STRONG = "^[À-ß«»???\- ,]+ " 'STRONG MATCH
 
 const PAGE_HEADER_STRONG = "(^[1-9][0-9] [À-ß«»??? ,]+)|([À-ß«»??? ,]+ [1-9][0-9]$)"
 const COLUMN_BREAK = "\n\r" 'works in Notepad++
@@ -30,8 +32,8 @@ sub MarkupDocsInDir
 	
 	for i=0 to Ubound(files)-1 
 		'msgbox ("Starting Processing ..." + files(i))
-		'Status = msgbox ("Do you want to convert SchoolBookCTT font to Unicode of " + files(i),3+32,"Loop")		
-		Status = MBYES
+		Status = msgbox ("Do you want to Markup " + files(i),3+32,"Loop")		
+		'Status = MBYES
 		Select Case Status
 			Case MBYES								
 				openDoc(ScrDir + files(i))	
@@ -89,6 +91,7 @@ sub addXmlTags
 	vSelection = ThisComponent.getCurrentSelection()
 	vCursor = ThisComponent.Text.CreateTextCursorByRange(vSelection(0))
 	vCursor.setString(infoTag)
+	msgbox("Xml preamble and stylesheet tags have been added.")
 End Sub
 
 sub addInfoTag
@@ -115,7 +118,7 @@ sub addInfoTag
 	dicttypeTag =	"<dicttype>Textual StarDict Dictionary</dicttype>"+ chr(10)
 	
 	infoTag =	"<info>" + verTag + bookNameTag + authorTag + emailTag + websiteTag + descrTag + dateTag + dicttypeTag + "</info>" + chr(10)
-	'msgbox (infoTag)	
+		
 	dim vCursor
 	dim vSelection
 	dim bIsSelected as Boolean
@@ -124,7 +127,7 @@ sub addInfoTag
 	vSelection = ThisComponent.getCurrentSelection()
 	vCursor = ThisComponent.Text.CreateTextCursorByRange(vSelection(0))
 	vCursor.setString(infoTag)
-	
+	msgbox ("InfoTag has been added")
 End Sub
 
 sub wrapIntoStarDictTag
@@ -152,7 +155,7 @@ sub wrapIntoStarDictTag
 	vSelection = ThisComponent.getCurrentSelection()
 	vCursor = ThisComponent.Text.CreateTextCursorByRange(vSelection(0))
 	vCursor.setString(chr(10) + "</stardict>")
-
+	msgbox("Document has been into parent <stardict> tag")
 End Sub
 
 
